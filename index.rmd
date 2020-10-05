@@ -2,6 +2,7 @@
 title: "Intro to R"
 author: 'Hydrological Risk A.A 2020/2021 <br><br><br><br>[luigi.cesarini@iusspavia.it](luigi.cesarini@iusspavia.it)'
 date: "`r format(Sys.Date(), '%d-%B-%Y')`" 
+output_dir: "docs"
 output:
   xaringan::moon_reader:
     css: [default,"intro_r.css"]

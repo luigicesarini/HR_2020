@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Intro to R</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Hydrological Risk A.A 2020/2021     luigi.cesarini@iusspavia.it" />
+    <link href="index_files/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <script src="index_files/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+    <script src="index_files/jquery-1.12.4/jquery.min.js"></script>
+    <link href="index_files/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+    <script src="index_files/leaflet-1.3.1/leaflet.js"></script>
+    <link href="index_files/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+    <script src="index_files/Proj4Leaflet-1.0.1/proj4-compressed.js"></script>
+    <script src="index_files/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+    <link href="index_files/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+    <script src="index_files/leaflet-binding-2.0.3/leaflet.js"></script>
+    <script src="index_files/leaflet-providers-1.9.0/leaflet-providers_1.9.0.js"></script>
+    <script src="index_files/leaflet-providers-plugin-2.0.3/leaflet-providers-plugin.js"></script>
+    <link rel="stylesheet" href="intro_r.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Intro to R
+### Hydrological Risk A.A 2020/2021 <br><br><br><br><a href="luigi.cesarini@iusspavia.it">luigi.cesarini@iusspavia.it</a>
+### 05-ottobre-2020
+
+---
+
+
+layout: true 
+&lt;div class="my-footer"&gt;&lt;span&gt;Hydrological Risk a.a. 2020-2021&lt;/span&gt;&lt;/div&gt;
+---
+<div>
+<style type="text/css">.xaringan-extra-logo {
+width: 110px;
+height: 128px;
+z-index: 0;
+background-image: url(https://yt3.ggpht.com/a/AATXAJxntPcYO48YNTKz8jZTwPpzWkGaVuHn67uJOr9Y=s900-c-k-c0xffffffff-no-rj-mo);
+background-size: contain;
+background-repeat: no-repeat;
+position: absolute;
+top:-1em;right:0em;
+}
+</style>
+<script>(function () {
+  let tries = 0
+  function addLogo () {
+    if (typeof slideshow === 'undefined') {
+      tries += 1
+      if (tries < 10) {
+        setTimeout(addLogo, 100)
+      }
+    } else {
+      document.querySelectorAll('.remark-slide-content:not(.title-slide):not(.inverse):not(.hide_logo)')
+        .forEach(function (slide) {
+          const logo = document.createElement('div')
+          logo.classList = 'xaringan-extra-logo'
+          logo.href = null
+          slide.appendChild(logo)
+        })
+    }
+  }
+  document.addEventListener('DOMContentLoaded', addLogo)
+})()</script>
+</div>
+
+
+
+
+
+## Outline (Targets)
+&lt;br&gt;&lt;br&gt;
+.outline[
+* Engage with different type of tabular data and being able to work on them. **Data Science**  
+&lt;br&gt;&lt;br&gt;&lt;br&gt;
+* Being able to present your results with different plots  
+&lt;br&gt;&lt;br&gt;&lt;br&gt;
+* Perform analysis on different spatial data and reproduce maps
+]
+
+---
+
+## What is R?
+&lt;img src="https://www.r-project.org/Rlogo.png" style="float:right;position:absolute;top:30%;left:65%;"&gt;
+On its [website](https://www.r-project.org) is defined as "_a free software environment for statistical computing and graphics_"  
+- Allows to handle large data    
+- Suitable for matrix and array computation  
+- Simple and effective programming language    
+- Great data visualization tool    
+&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;
+--
+&lt;img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTm968T5Um3hNW1F9-p2caKuPcn7e9D_6UEow&amp;usqp=CAU" style="float:right;position:absolute;top:65%;left:65%;height:15%;"&gt;
+**RStudio** is an integrated development environment (IDE) for R.  
+* User-friendly
+* Implement other languages 
+* A better overall cross-connection 
+
+--
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;&lt;br&gt;
+One of the main advantages is the big and willing to share community behind R.
+
+---
+
+### Possible Applications 
+
+#### Interactive maps (several libraries available: `leaflet`, `tmap`, `mapview`) 
+
+
+
+```r
+library(leaflet)
+library(leaflet.extras2)
+
+m &lt;- leaflet() %&gt;%
+  addProviderTiles(providers$OpenStreetMap) %&gt;% 
+  addMarkers(lng=9.154167, lat=45.185, popup="Where we would be in non-Covid times")  
+```
+
+---
+  
+#### Interactive maps (several libraries available: `leaflet`, `tmap`, `mapview`) 
+
+<div id="htmlwidget-1e76874b904045d1ffa9" style="width:504px;height:504px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1e76874b904045d1ffa9">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addProviderTiles","args":["OpenStreetMap",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addMarkers","args":[45.185,9.154167,null,null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},"Where we would be in non-Covid times",null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[45.185,45.185],"lng":[9.154167,9.154167]}},"evals":[],"jsHooks":[]}</script>
+
+---
+
+#### Standalone application with Shiny 
+Shiny is a package developed to build standalone app, webpage and dashboard easily customizable with _css_ themes and _html_ widget.  
+
+Easy to deploy even on Rstudio server   
+  
+[Covid Dashboard](https://vac-lshtm.shinyapps.io/ncov_tracker/?_ga=2.118809225.1000286934.1601745645-532480143.1550319793)
+
+---
+
+#### Technical reports with RMarkdown  
+RMarkdown is a particular kind of document that connects the characteristics of a markdown file to the of R code and many more.  
+
+All documents created with R MArkdown are reproducible and can be used to generate nice technical report that can be easily shared.  
+
+[R packages tutorial](https://rpubs.com/luigicesarini/tutorial_packages)
+
+---
+
+#### Wrappers for some big data framework (e.g. Apache-Spark)  
+
+Sparklyr is a tool used to handle large-scale data processing through the Apache-Spark framework
+
+
+```r
+library(sparklyr)
+library(dplyr)
+
+sc &lt;- spark_connect(master = "local", version = 2.3)
+iris_tbl &lt;- copy_to(sc, iris,overwrite = TRUE)
+
+iris_tbl %&gt;% filter(Species == "setosa") %&gt;% head()
+```
+  
+  
+---
+  
+  
+#### Machine learning  
+
+There a lot of packages that can be used for machine learning (e.g. e1071, neuralnet)
+
+.pull-left[
+**Tensorflow** (Keras)
+&lt;img src="https://www.tensorflow.org/images/tf_logo_social.png" style="position:relative;top:40%;left:-25%;"&gt;  
+  
+  
+  
+[TensorFlow](https://www.tensorflow.org/)  
+  
+  
+[Keras](https://keras.rstudio.com/)
+
+]  
+
+.pull-right[
+**PyTorch**
+&lt;img src="https://iaml.it/images/8/c/3/3/6/8c336d720dc2c110dcf77fb71b9508a7d9d4b15d-c2ujkgbviaaylf6.jpeg" style="float:right;position:absolute;top:40%;left:47%;width:40%;"&gt;  
+&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;
+&lt;br&gt;  
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;&lt;br&gt;
+[Pytorch](https://www.pytorch.org/) 
+
+
+]  
+
+
+---
+
+#### Easy to work with databases (SQL's, Oracle, MongoDB and others)  
+
+
+```r
+library(DBI)
+# Create an ephemeral in-memory RSQLite database
+con &lt;- dbConnect(RSQLite::SQLite(), ":memory:")
+
+dbListTables(con)
+```
+
+```
+## character(0)
+```
+
+```r
+dbWriteTable(con, "mtcars", mtcars)
+dbListTables(con)
+```
+
+```
+## [1] "mtcars"
+```
+
+```r
+# You can fetch all results:
+res &lt;- dbSendQuery(con, "SELECT * FROM mtcars WHERE cyl = 4")
+dbFetch(res)[1:3,]
+```
+
+```
+##    mpg cyl  disp hp drat   wt  qsec vs am gear carb
+## 1 22.8   4 108.0 93 3.85 2.32 18.61  1  1    4    1
+## 2 24.4   4 146.7 62 3.69 3.19 20.00  1  0    4    2
+## 3 22.8   4 140.8 95 3.92 3.15 22.90  1  0    4    2
+```
+
+
+---
+
+### Basic syntax
+**Arithmetic Operators**  
+ `+` `-`  `*` `/`  
+ `**/^`  
+  `%%`  
+ `NA`  
+ `Inf`  `-Inf`
+ `NaN`
+ 
+**Logical Operator**  
+* `&amp;`,`&amp;&amp;` (and)
+* `|`,`||` (or)
+* `!`      (not)
+* `==`
+* `!=`
+* `&gt;=`,`&lt;=`, `&lt;`,`&gt;`
+
+**Assignment Operator**  
+* `x = 5`
+* `x &lt;- 5`
+* `5 -&gt; x`
+
+---
+
+### Data types 
+
+R language uses mainly five types of data  
+  
+* Logical: `TRUE` , `FALSE`  
+* Numeric: integers `1` `5` and floating number `5.2`  
+* Character: `'2'`, `Hello World`  
+* Factor: `'1'` , `'String with level'`
+* Complex: `i+4i`
+  
+Factors are used for categorical variables. They can be ordered or unordered  
+
+Factors are stored as integers, and have labels associated with these unique integers.  
+
+While factors look (and often behave) like character vectors, they are actually integers under the hood, and you need to be careful when treating them like strings
+
+
+---
+
+### Data structures 
+
+Data types are usually stored into "container", usually called data structures  
+
+These are the main data structures used in R:  
+  
+&lt;br&gt;  
+* Vector  
+&lt;br&gt;  
+
+* Matrices and arrays  
+&lt;br&gt;  
+
+* Data frame and lists  
+
+There are also data structures that are created when developing packages and tools that are used for a specific purpose. For example, tensors in TensorFlow.  
+
+Several useful function to investigate nature of the data: 
+ `class(),str(),dim(),as.vector(),mode(),length(), typeof(),attributes() `
+ 
+
+
+---
+
+#### Vector
+Is the basic data structure in R and is made of element of the same type   `character`, `logical`, `integer` or `numeric`.  
+You can create a vector in different way:  
+
+```r
+#Empty vector with a specified length
+vector()
+```
+
+logical(0)
+
+```r
+vector("numeric",length=3)
+```
+
+[1] 0 0 0
+
+```r
+#Vectors with specific content
+x &lt;- c(5,6,3.2)
+print(x)
+```
+
+[1] 5.0 6.0 3.2
+
+```r
+x &lt;- c(1L,2L)
+print(x)
+```
+
+[1] 1 2
+
+---
+
+#### Vector
+  
+
+```r
+# Logical vector
+x &lt;- c(TRUE,FALSE)
+print(x)
+```
+
+[1]  TRUE FALSE
+
+```r
+#Character Vector
+x &lt;- c("Hello","World")
+x
+```
+
+[1] "Hello" "World"
+  
+&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;  
+Vectors tend to coerce the type of the data to the most convenient one. Pay attention!
+---
+
+#### Vector  
+Vector as any kind of data structure can be investigated with several functions.
+
+```r
+length(x)
+```
+
+```
+## [1] 2
+```
+
+```r
+class(x)
+```
+
+```
+## [1] "character"
+```
+
+```r
+str(x)
+```
+
+```
+##  chr [1:2] "Hello" "World"
+```
+One may add element to an already existing vector or obtain a vector from a sequence of number  
+
+```r
+x &lt;- seq(0:10)
+x &lt;- 0:10
+
+x &lt;- c(15.2,x)
+print(x)
+```
+
+```
+##  [1] 15.2  0.0  1.0  2.0  3.0  4.0  5.0  6.0  7.0  8.0  9.0 10.0
+```
+
+
+---
+
+#### Matrix
+
+
+```r
+mat &lt;- matrix(ncol = 4,nrow = 4)
+print(mat)
+```
+
+```
+##      [,1] [,2] [,3] [,4]
+## [1,]   NA   NA   NA   NA
+## [2,]   NA   NA   NA   NA
+## [3,]   NA   NA   NA   NA
+## [4,]   NA   NA   NA   NA
+```
+
+
+```r
+#filled column-wise
+m &lt;- matrix(data = seq(1,24,2),nrow = 4,ncol = 3)
+print(m)
+```
+
+```
+##      [,1] [,2] [,3]
+## [1,]    1    9   17
+## [2,]    3   11   19
+## [3,]    5   13   21
+## [4,]    7   15   23
+```
+
+```r
+typeof(m)
+```
+
+```
+## [1] "double"
+```
+
+---
+
+#### Matrix
+
+```r
+#By default the filling is by column, here try by row
+n &lt;- matrix(data = 1:2,nrow = 2,ncol = 3,byrow = TRUE)
+print(n)
+```
+
+```
+##      [,1] [,2] [,3]
+## [1,]    1    2    1
+## [2,]    2    1    2
+```
+
+```r
+rbind(m,n)
+```
+
+```
+##      [,1] [,2] [,3]
+## [1,]    1    9   17
+## [2,]    3   11   19
+## [3,]    5   13   21
+## [4,]    7   15   23
+## [5,]    1    2    1
+## [6,]    2    1    2
+```
+
+```r
+cbind(t(m),t(n))
+```
+
+```
+##      [,1] [,2] [,3] [,4] [,5] [,6]
+## [1,]    1    3    5    7    1    2
+## [2,]    9   11   13   15    2    1
+## [3,]   17   19   21   23    1    2
+```
+
+
+
+---
+
+#### Indexing  
+Selecting a subset of a structure.  
+The index starts at 1 and does not exclude any value (i.e. the interval is open)  
+
+
+**By position**
+
+```r
+x &lt;- c("Hello","I'm","a PhD", "Student", "at Iuss", "in Pavia")
+
+x[1]
+
+x[-3]
+
+x[2:4]
+
+x[-(2:4)]
+
+x[c(1,6)]  
+
+x[0:-5]
+```
+
+
+
+---
+
+#### Indexing  
+**By Name**
+
+
+```r
+head(iris[,"Species"])
+```
+
+```
+## [1] setosa setosa setosa setosa setosa setosa
+## Levels: setosa versicolor virginica
+```
+
+**By value (logical vector)**
+
+```r
+x &lt;- c(-50,15,85,42,-61,14)
+
+x[x == 15]
+```
+
+[1] 15
+
+```r
+x[x &lt; 0]
+```
+
+[1] -50 -61
+
+```r
+x[x %in%  seq(1,50,1)]
+```
+
+[1] 15 42 14
+
+```r
+x[x %% 2 == 0]
+```
+
+[1] -50  42  14
+
+
+---
+
+#### Lists  
+
+Lists allocate every mode of data, each element can be of a different type.  
+List can be created in multiple way:  
+
+
+```r
+x &lt;- list("Hi",15.2,TRUE,5)
+x
+```
+
+```
+## [[1]]
+## [1] "Hi"
+## 
+## [[2]]
+## [1] 15.2
+## 
+## [[3]]
+## [1] TRUE
+## 
+## [[4]]
+## [1] 5
+```
+
+---
+
+#### Lists 
+
+
+```r
+#Initialize an empty list of length 3
+x &lt;- vector("list",length = 3)
+x
+```
+
+```
+## [[1]]
+## NULL
+## 
+## [[2]]
+## NULL
+## 
+## [[3]]
+## NULL
+```
+
+
+```r
+# List can have names for each element
+x &lt;- list(flowers=iris,numbers= rnorm(10,5,2),colors=c("red","yellow"))
+names(x)
+```
+
+```
+## [1] "flowers" "numbers" "colors"
+```
+
+```r
+names(x)[2] &lt;- "norm numbers"
+```
+
+---
+
+#### Lists  
+
+
+```r
+head(x$flowers)
+```
+
+```
+##   Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+## 1          5.1         3.5          1.4         0.2  setosa
+## 2          4.9         3.0          1.4         0.2  setosa
+## 3          4.7         3.2          1.3         0.2  setosa
+## 4          4.6         3.1          1.5         0.2  setosa
+## 5          5.0         3.6          1.4         0.2  setosa
+## 6          5.4         3.9          1.7         0.4  setosa
+```
+
+```r
+print(x[2:3])
+```
+
+```
+## $`norm numbers`
+##  [1] 4.1129613 5.0927599 3.1898173 5.4322121 3.3200593 4.7528573 6.5898873
+##  [8] 4.9013102 0.2659293 6.7596914
+## 
+## $colors
+## [1] "red"    "yellow"
+```
+
+List are helpful when writing functions. It allows you to return multiple object in a "tricky" way.
+
+---
+
+#### Data Frame  
+
+It's the basic data structure for tabular data. Data frame is a rectangular list, all columns have the same length and as for the list they can host every kind of data.  
+
+
+```r
+df &lt;- data.frame(initials = rep("LC",5), height=runif(5,min = 1.50,max = 2),weight=rnorm(5,mean = 70,sd = 5))
+
+df
+```
+
+```
+##   initials   height   weight
+## 1       LC 1.622151 69.68355
+## 2       LC 1.688612 72.94168
+## 3       LC 1.510465 67.60586
+## 4       LC 1.994157 71.69140
+## 5       LC 1.582095 72.79332
+```
+
+```r
+df$initials
+```
+
+```
+## [1] "LC" "LC" "LC" "LC" "LC"
+```
+
+```r
+df[['initials']]
+```
+
+```
+## [1] "LC" "LC" "LC" "LC" "LC"
+```
+
+
+---
+
+#### Data Frame  
+The indexing rules apply the same to dataframe structure
+
+
+```r
+df[,1]
+```
+
+```
+## [1] "LC" "LC" "LC" "LC" "LC"
+```
+
+```r
+df[3:5,2]
+```
+
+```
+## [1] 1.510465 1.994157 1.582095
+```
+
+```r
+df[2,"height"]
+```
+
+```
+## [1] 1.688612
+```
+
+---
+
+#### Functions and Packages
+
+**Built in functions**
+
+
+```r
+mean(c(5,6.75,18.2))  
+```
+
+```
+## [1] 9.983333
+```
+
+**Built custom function**
+
+
+```r
+#Return the anomalies of a vector
+anomalies &lt;- function(x){
+  anom &lt;- x-mean(x)
+  return(anom)
+}
+
+anomalies(c(7,8,15,32,56,41))
+```
+
+```
+## [1] -19.5 -18.5 -11.5   5.5  29.5  14.5
+```
+
+---
+
+**Packages**  
+
+```r
+#install.packages("ggplot2")
+library(ggplot2)           
+ggplot(cars, aes(x=speed,y=dist))+geom_point()+theme_bw()
+```
+
+![](index_files/figure-html/unnamed-chunk-23-1.png)&lt;!-- --&gt;
+
+
+---
+
+#### Control Statements
+For loop is one of the control statements in R programming that executes a set of statements in a loop for a specific number of times, as per the vector provided to it.  
+
+```r
+for (variable in vector) {
+  Something happen
+}
+```
+A while loop is one of the control statements in R programming which executes a set of statements in a loop until the condition (the Boolean expression) evaluates to TRUE.  
+
+```r
+while (condition) {
+  Something happen
+}
+```
+
+---
+
+#### Control Statements  
+Consists of a Boolean expression (condition) and a set of statements (do something). If the condition is satisfied, the set of statements is executed otherwise the statements after the end of the `if` are executed  
+
+
+```r
+if (condition) {
+  Do something
+}else {
+  Do something different
+}
+```
+
+It is possible to write your own function, which is stored in R and can be _'called'_ in your scripts  
+
+```r
+function_name &lt;- function(arguments){
+  Do something special
+  return(something special)
+}
+```
+
+
+---
+
+#### Example  
+
+```r
+i &lt;- 0
+while (i &lt; 6) {
+  print(i)
+  i=i+1
+}
+```
+
+```
+## [1] 0
+## [1] 1
+## [1] 2
+## [1] 3
+## [1] 4
+## [1] 5
+```
+
+```r
+if (i == 0) {
+  my_name = "Luigi"
+}else {
+  print("I don't have a name")
+}
+```
+
+```
+## [1] "I don't have a name"
+```
+
+---
+
+#### Example cont'd
+
+
+```r
+head(mtcars)
+```
+
+```
+##                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
+## Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+## Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+## Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1
+## Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
+## Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
+## Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1
+```
+
+```r
+cyl &lt;- c()
+for (j in 1:5) {
+  cyl[j] &lt;- mtcars[j,"cyl"]
+}
+print(cyl)
+```
+
+```
+## [1] 6 6 4 6 8
+```
+
+
+---
+
+#### Reading data from external source  
+There are a lot of type of data that can be read by R. The basic function to read a .csv or a .txt file are  
+&lt;br&gt;
+`read.table()`, `write.table()`    
+`read.csv()`, `write.csv()`  
+&lt;br&gt;
+From the `data.table` package:
+&lt;br&gt;
+`fread()`  
+&lt;br&gt;
+Sometimes might be handy to save some variables  
+&lt;br&gt;
+`save(df, file='injury_data.RData')`  
+
+`load(file='injury_data.RData')`
+
+
+---
+
+#### Packages: dplyr,sf,ggplot,tmap,raster
+
+
+* `dplyr`  : is part of tidyverse and is used for data manipulation allows the use of the pipe operator 
+&lt;br&gt;&lt;br&gt;&lt;br&gt;
+* `ggplot2`: is also part of tidyverse is a system for creating graphic objects
+&lt;br&gt;&lt;br&gt;&lt;br&gt;
+* `sf`     : stands for simple features, a standardized way to encode spatial vector data
+&lt;br&gt;&lt;br&gt;&lt;br&gt;
+* `tmap`   : is a flexible tool used to create thematic maps
+&lt;br&gt;&lt;br&gt;&lt;br&gt;
+* `raster` : used to load and manipulate raster object
+
+---
+
+#### Useful resources 
+
+Here a list of insightful material
+ - [Stack Overflow](https://stackoverflow.com/)
+ - [R_Blogger](https://www.r-bloggers.com/)
+ - [R Cheatsheets](https://github.com/rstudio/cheatsheets)
+ - [Geocomputation with R](https://bookdown.org/robinlovelace/geocompr/)
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"countIncrementalSlides": false,
+"highlightLines": true
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
