@@ -1,0 +1,46 @@
+@import url(https://fonts.googleapis.com/css?family=Fira+Sans:300,300i,400,400i,500,500i,700,700i);
+@import url(https://cdn.rawgit.com/tonsky/FiraCode/1.204/distr/fira_code.css);
+
+  body {
+    font-family: 'Fira Sans','Droid Serif', 'Palatino Linotype', 'Book Antiqua', Palatino, 'Microsoft YaHei', 'Songti SC', serif;
+    }
+
+.remark-code, .remark-inline-code {
+  font-family: 'Fira Code', 'Lucida Console', Monaco, monospace;
+  font-size: 100%;
+}
+
+.title-slide{
+  background-image: url(https://s2.qwant.com/thumbr/0x380/e/8/59ea852997c1709f4d81558f6b68142e61b138b4055fc58933b7f26cdf1a5a/background-6.jpg?u=http%3A%2F%2Fwww.dvd-ppt-slideshow.com%2Fimages%2Fppt-background%2Fbackground-6.jpg&q=0&b=1&p=0&a=1);
+  background-size: cover;
+  color: black;
+}
+
+.title-slide .remark-slide-number {
+  display: none;
+}
+
+a, a > code {
+    color: red;
+    text-decoration: none;
+}
+
+.my-footer{
+  color:cadetblue;
+  position: absolute;
+  bottom:5px;
+  left: 5px;
+}
+
+.inverse{
+  background-image: "background.png";
+}
+
+.remark-slide-content {
+    background-color: #fff;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: table-cell;
+    font-size: 18px;
+    padding: 1em 4em 1em 4em;
+}

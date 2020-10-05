@@ -1,0 +1,159 @@
+html , body{
+  font-size:25pt;
+  background-color: white;
+  font-family: "Gill Sans MT", "Gill Sans", GillSans, sans-serif;
+}
+
+
+pre {
+  
+  font-size: 0.85em;
+	font-weight: bold;
+	line-height: 120%;
+	padding-top: 0.2em;
+	padding-bottom: 0.2em;
+	padding-left: 1em;
+	padding-right: 1em;
+	border-style: solid;
+	border-left-width: 0.25em;
+	border-top-width: thin;
+	border-right-width: thin;
+	border-bottom-width: thin;
+	border-color: #6e5494;
+	color: #00428C;
+	background-color: rgb(199, 188, 217);
+	}
+pre.sourceCode {
+	font-size: 0.85em;
+	font-weight: bold;
+	line-height: 120%;
+	padding-top: 0.2em;
+	padding-bottom: 0.2em;
+	padding-left: 1em;
+	padding-right: 1em;
+	border-style: solid;
+	border-left-width: 0.25em;
+	border-top-width: thin;
+	border-right-width: thin;
+	border-bottom-width: thin;
+	border-color: rgb(10,51,8);
+	color: #00428C;
+	background-color: rgb(191,255,188);
+	}
+
+#title {
+background-size: 100% 100% ;
+ background-image: url(https://miro.medium.com/max/3840/1*fdAgFeBeS3BG3Nxh5GRQ0g.jpeg);
+}
+
+div.slide h1 {
+    padding-left: 0;
+    padding-right: 20pt;
+    padding-top: 4pt;
+    padding-bottom: 4pt;
+    margin-top: 0;
+    margin-left: 0;
+    margin-right: 60pt;
+    margin-bottom: 0.5em;
+    display: block;
+    font-size: 1.5em;
+    line-height: 1.2em;
+    background: transparent;
+}
+
+ul li {
+    list-style: square;
+    list-style-type: square;
+    list-style-position: initial;
+    list-style-image: initial;
+    margin: 0.1em 0 0.6em 0;
+    padding: 0 0 0 0;
+    line-height: 110%;
+}
+
+li {
+    display: list-item;
+    font-size: 0.65em;
+    font-weight:bold;
+    text-align: -webkit-match-parent;
+}
+
+
+div.sourceCode {
+    margin: 1em 0;
+    padding-right: 0;
+}
+
+
+h1 {
+  color: Dodgerblue;
+	font-family: Calibri,Candara,Segoe,Segoe UI,Optima,Arial,sans-serif;
+	font-size: 2em;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 500;
+	line-height: 50px;
+}
+h3 {
+  color: black;
+	font-family: Calibri,Candara,Segoe,Segoe UI,Optima,Arial,sans-serif;
+	font-size: 1em;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 500;
+	line-height: 15.4px;
+}
+
+a:link {
+  color: green;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+a:hover {
+  color: red;
+  background-color: transparent;
+  text-decoration: underline;
+}
+
+.reference{
+  font-size:15px;
+  color: green;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+.right {
+font-size:1em;
+margin-left:0;
+}
+
+.rightsf {
+font-size:0.75em;
+margin-left:35%;
+}
+
+.chunkchange {
+	font-size: 25%;
+	font-family: Calibri;
+	
+}
+
+p {
+    font-size:.75em;
+    margin: 0 0 10px;
+}
+
+b, strong {
+    font-size:1em;
+    font-weight: bold;
+}
+
+code {
+    font-size:0.9em;
+    font-weight: bold;
+    font-family:Calibri;
+}
+
+
+

@@ -1,0 +1,7 @@
+base
+leaflet
+leaflet.extras2
+sparklyr
+dplyr
+DBI
+ggplot2
