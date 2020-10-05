@@ -1,0 +1,597 @@
+---
+title: "Intro to R"
+author: 'Hydrological Risk A.A 2020/2021 <br><br><br><br>[luigi.cesarini@iusspavia.it](luigi.cesarini@iusspavia.it)'
+date: "`r format(Sys.Date(), '%d-%B-%Y')`" 
+output:
+  xaringan::moon_reader:
+    css: [default,"intro_r.css"]
+    nature:
+      countIncrementalSlides: false
+      highlightLines: true
+---
+
+layout: true 
+<div class="my-footer"><span>Hydrological Risk a.a. 2020-2021</span></div>
+---
+```{r xaringan-logo, echo=FALSE}
+xaringanExtra::use_logo(
+  image_url = "https://yt3.ggpht.com/a/AATXAJxntPcYO48YNTKz8jZTwPpzWkGaVuHn67uJOr9Y=s900-c-k-c0xffffffff-no-rj-mo",
+  position = xaringanExtra::css_position(top = "-1em", right = "0em")
+)
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache = FALSE, message = FALSE)
+```
+
+
+
+## Outline (Targets)
+<br><br>
+.outline[
+* Engage with different type of tabular data and being able to work on them. **Data Science**  
+<br><br><br>
+* Being able to present your results with different plots  
+<br><br><br>
+* Perform analysis on different spatial data and reproduce maps
+]
+
+---
+
+## What is R?
+<img src="https://www.r-project.org/Rlogo.png" style="float:right;position:absolute;top:30%;left:65%;">
+On its [website](https://www.r-project.org) is defined as "_a free software environment for statistical computing and graphics_"  
+- Allows to handle large data    
+- Suitable for matrix and array computation  
+- Simple and effective programming language    
+- Great data visualization tool    
+<br><br><br><br>
+--
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTm968T5Um3hNW1F9-p2caKuPcn7e9D_6UEow&usqp=CAU" style="float:right;position:absolute;top:65%;left:65%;height:15%;">
+**RStudio** is an integrated development environment (IDE) for R.  
+* User-friendly
+* Implement other languages 
+* A better overall cross-connection 
+
+--
+<br>
+<br>
+<br><br>
+One of the main advantages is the big and willing to share community behind R.
+
+---
+
+### Possible Applications 
+
+#### Interactive maps (several libraries available: `leaflet`, `tmap`, `mapview`) 
+
+
+```{r, echo = TRUE}
+library(leaflet)
+library(leaflet.extras2)
+
+m <- leaflet() %>%
+  addProviderTiles(providers$OpenStreetMap) %>% 
+  addMarkers(lng=9.154167, lat=45.185, popup="Where we would be in non-Covid times")  
+
+```
+
+---
+  
+#### Interactive maps (several libraries available: `leaflet`, `tmap`, `mapview`) 
+
+```{r, echo = FALSE, eval = TRUE}
+m
+```
+
+---
+
+#### Standalone application with Shiny 
+Shiny is a package developed to build standalone app, webpage and dashboard easily customizable with _css_ themes and _html_ widget.  
+
+Easy to deploy even on Rstudio server   
+  
+[Covid Dashboard](https://vac-lshtm.shinyapps.io/ncov_tracker/?_ga=2.118809225.1000286934.1601745645-532480143.1550319793)
+
+---
+
+#### Technical reports with RMarkdown  
+RMarkdown is a particular kind of document that connects the characteristics of a markdown file to the of R code and many more.  
+
+All documents created with R MArkdown are reproducible and can be used to generate nice technical report that can be easily shared.  
+
+[R packages tutorial](https://rpubs.com/luigicesarini/tutorial_packages)
+
+---
+
+#### Wrappers for some big data framework (e.g. Apache-Spark)  
+
+Sparklyr is a tool used to handle large-scale data processing through the Apache-Spark framework
+
+```{r, echo = TRUE, cache = TRUE, eval = FALSE}
+library(sparklyr)
+library(dplyr)
+
+sc <- spark_connect(master = "local", version = 2.3)
+iris_tbl <- copy_to(sc, iris,overwrite = TRUE)
+
+iris_tbl %>% filter(Species == "setosa") %>% head()
+
+```
+  
+  
+---
+  
+  
+#### Machine learning  
+
+There a lot of packages that can be used for machine learning (e.g. e1071, neuralnet)
+
+.pull-left[
+**Tensorflow** (Keras)
+<img src="https://www.tensorflow.org/images/tf_logo_social.png" style="position:relative;top:40%;left:-25%;">  
+  
+  
+  
+[TensorFlow](https://www.tensorflow.org/)  
+  
+  
+[Keras](https://keras.rstudio.com/)
+
+]  
+
+.pull-right[
+**PyTorch**
+<img src="https://iaml.it/images/8/c/3/3/6/8c336d720dc2c110dcf77fb71b9508a7d9d4b15d-c2ujkgbviaaylf6.jpeg" style="float:right;position:absolute;top:40%;left:47%;width:40%;">  
+<br><br><br><br>
+<br>  
+<br>
+<br>
+<br><br>
+[Pytorch](https://www.pytorch.org/) 
+
+
+]  
+
+
+---
+
+#### Easy to work with databases (SQL's, Oracle, MongoDB and others)  
+
+```{r, echo = TRUE}
+library(DBI)
+# Create an ephemeral in-memory RSQLite database
+con <- dbConnect(RSQLite::SQLite(), ":memory:")
+
+dbListTables(con)
+
+dbWriteTable(con, "mtcars", mtcars)
+dbListTables(con)
+
+# You can fetch all results:
+res <- dbSendQuery(con, "SELECT * FROM mtcars WHERE cyl = 4")
+dbFetch(res)[1:3,]
+```
+
+
+---
+
+### Basic syntax
+**Arithmetic Operators**  
+ `+` `-`  `*` `/`  
+ `**/^`  
+  `%%`  
+ `NA`  
+ `Inf`  `-Inf`
+ `NaN`
+ 
+**Logical Operator**  
+* `&`,`&&` (and)
+* `|`,`||` (or)
+* `!`      (not)
+* `==`
+* `!=`
+* `>=`,`<=`, `<`,`>`
+
+**Assignment Operator**  
+* `x = 5`
+* `x <- 5`
+* `5 -> x`
+
+---
+
+### Data types 
+
+R language uses mainly five types of data  
+  
+* Logical: `TRUE` , `FALSE`  
+* Numeric: integers `1` `5` and floating number `5.2`  
+* Character: `'2'`, `Hello World`  
+* Factor: `'1'` , `'String with level'`
+* Complex: `i+4i`
+  
+Factors are used for categorical variables. They can be ordered or unordered  
+
+Factors are stored as integers, and have labels associated with these unique integers.  
+
+While factors look (and often behave) like character vectors, they are actually integers under the hood, and you need to be careful when treating them like strings
+
+
+---
+
+### Data structures 
+
+Data types are usually stored into "container", usually called data structures  
+
+These are the main data structures used in R:  
+  
+<br>  
+* Vector  
+<br>  
+
+* Matrices and arrays  
+<br>  
+
+* Data frame and lists  
+
+There are also data structures that are created when developing packages and tools that are used for a specific purpose. For example, tensors in TensorFlow.  
+
+Several useful function to investigate nature of the data: 
+ `class(),str(),dim(),as.vector(),mode(),length(), typeof(),attributes() `
+ 
+
+
+---
+
+#### Vector
+Is the basic data structure in R and is made of element of the same type   `character`, `logical`, `integer` or `numeric`.  
+You can create a vector in different way:  
+```{r, echo=TRUE, results='asis'}
+#Empty vector with a specified length
+vector()
+vector("numeric",length=3)
+#Vectors with specific content
+x <- c(5,6,3.2)
+print(x)
+x <- c(1L,2L)
+print(x)
+```
+
+---
+
+#### Vector
+  
+```{r, echo=TRUE, results='asis'}
+# Logical vector
+x <- c(TRUE,FALSE)
+print(x)
+#Character Vector
+x <- c("Hello","World")
+x
+```
+  
+<br><br><br><br><br><br>  
+Vectors tend to coerce the type of the data to the most convenient one. Pay attention!
+---
+
+#### Vector  
+Vector as any kind of data structure can be investigated with several functions.
+```{r, echo=TRUE}
+length(x)
+class(x)
+str(x)
+```
+One may add element to an already existing vector or obtain a vector from a sequence of number  
+```{r,echo=TRUE}
+x <- seq(0:10)
+x <- 0:10
+
+x <- c(15.2,x)
+print(x)
+```
+
+
+---
+
+#### Matrix
+
+```{r}
+mat <- matrix(ncol = 4,nrow = 4)
+print(mat)
+```
+
+```{r,echo=TRUE}
+#filled column-wise
+m <- matrix(data = seq(1,24,2),nrow = 4,ncol = 3)
+print(m)
+
+typeof(m)
+```
+
+---
+
+#### Matrix
+```{r,echo=TRUE}
+#By default the filling is by column, here try by row
+n <- matrix(data = 1:2,nrow = 2,ncol = 3,byrow = TRUE)
+print(n)
+rbind(m,n)
+
+cbind(t(m),t(n))
+```
+
+
+
+---
+
+#### Indexing  
+Selecting a subset of a structure.  
+The index starts at 1 and does not exclude any value (i.e. the interval is open)  
+
+
+**By position**
+```{r, echo=TRUE, results='hide'}
+x <- c("Hello","I'm","a PhD", "Student", "at Iuss", "in Pavia")
+
+x[1]
+
+x[-3]
+
+x[2:4]
+
+x[-(2:4)]
+
+x[c(1,6)]  
+
+x[0:-5]
+```
+
+
+
+---
+
+#### Indexing  
+**By Name**
+
+```{r,echo=TRUE}
+head(iris[,"Species"])
+```
+
+**By value (logical vector)**
+```{r, echo=TRUE, results='asis'}
+x <- c(-50,15,85,42,-61,14)
+
+x[x == 15]
+x[x < 0]
+x[x %in%  seq(1,50,1)]
+x[x %% 2 == 0]
+```
+
+
+---
+
+#### Lists  
+
+Lists allocate every mode of data, each element can be of a different type.  
+List can be created in multiple way:  
+
+```{r,echo=TRUE}
+x <- list("Hi",15.2,TRUE,5)
+x
+
+```
+
+---
+
+#### Lists 
+
+```{r,echo=TRUE}
+#Initialize an empty list of length 3
+x <- vector("list",length = 3)
+x
+```
+
+```{r,echo=TRUE}
+
+# List can have names for each element
+x <- list(flowers=iris,numbers= rnorm(10,5,2),colors=c("red","yellow"))
+names(x)
+names(x)[2] <- "norm numbers"
+```
+
+---
+
+#### Lists  
+
+```{r}
+head(x$flowers)
+print(x[2:3])
+```
+
+List are helpful when writing functions. It allows you to return multiple object in a "tricky" way.
+
+---
+
+#### Data Frame  
+
+It's the basic data structure for tabular data. Data frame is a rectangular list, all columns have the same length and as for the list they can host every kind of data.  
+
+```{r,echo=TRUE}
+df <- data.frame(initials = rep("LC",5), height=runif(5,min = 1.50,max = 2),weight=rnorm(5,mean = 70,sd = 5))
+
+df
+
+df$initials
+
+df[['initials']]
+```
+
+
+---
+
+#### Data Frame  
+The indexing rules apply the same to dataframe structure
+
+```{r,echo=TRUE}
+
+df[,1]
+
+df[3:5,2]
+
+df[2,"height"]
+```
+
+---
+
+#### Functions and Packages
+
+**Built in functions**
+
+```{r}
+mean(c(5,6.75,18.2))  
+
+```
+
+**Built custom function**
+
+```{r}
+#Return the anomalies of a vector
+anomalies <- function(x){
+  anom <- x-mean(x)
+  return(anom)
+}
+
+anomalies(c(7,8,15,32,56,41))
+```
+
+---
+
+**Packages**  
+```{r}
+#install.packages("ggplot2")
+library(ggplot2)           
+ggplot(cars, aes(x=speed,y=dist))+geom_point()+theme_bw()
+```
+
+
+---
+
+#### Control Statements
+For loop is one of the control statements in R programming that executes a set of statements in a loop for a specific number of times, as per the vector provided to it.  
+```{r, echo =TRUE, eval = FALSE}
+
+for (variable in vector) {
+  Something happen
+}
+
+```
+A while loop is one of the control statements in R programming which executes a set of statements in a loop until the condition (the Boolean expression) evaluates to TRUE.  
+```{r, echo =TRUE, eval = FALSE}
+
+while (condition) {
+  Something happen
+}
+```
+
+---
+
+#### Control Statements  
+Consists of a Boolean expression (condition) and a set of statements (do something). If the condition is satisfied, the set of statements is executed otherwise the statements after the end of the `if` are executed  
+
+```{r, echo =TRUE, eval = FALSE}
+
+if (condition) {
+  Do something
+}else {
+  Do something different
+}
+```
+
+It is possible to write your own function, which is stored in R and can be _'called'_ in your scripts  
+```{r, echo =TRUE, eval = FALSE}
+
+function_name <- function(arguments){
+  Do something special
+  return(something special)
+}
+```
+
+
+---
+
+#### Example  
+```{r,echo=TRUE}
+i <- 0
+while (i < 6) {
+  print(i)
+  i=i+1
+}
+
+if (i == 0) {
+  my_name = "Luigi"
+}else {
+  print("I don't have a name")
+}
+
+
+```
+
+---
+
+#### Example cont'd
+
+```{r}
+head(mtcars)
+
+cyl <- c()
+for (j in 1:5) {
+  cyl[j] <- mtcars[j,"cyl"]
+}
+print(cyl)
+```
+
+
+---
+
+#### Reading data from external source  
+There are a lot of type of data that can be read by R. The basic function to read a .csv or a .txt file are  
+<br>
+`read.table()`, `write.table()`    
+`read.csv()`, `write.csv()`  
+<br>
+From the `data.table` package:
+<br>
+`fread()`  
+<br>
+Sometimes might be handy to save some variables  
+<br>
+`save(df, file='injury_data.RData')`  
+
+`load(file='injury_data.RData')`
+
+
+---
+
+#### Packages: dplyr,sf,ggplot,tmap,raster
+
+
+* `dplyr`  : is part of tidyverse and is used for data manipulation allows the use of the pipe operator 
+<br><br><br>
+* `ggplot2`: is also part of tidyverse is a system for creating graphic objects
+<br><br><br>
+* `sf`     : stands for simple features, a standardized way to encode spatial vector data
+<br><br><br>
+* `tmap`   : is a flexible tool used to create thematic maps
+<br><br><br>
+* `raster` : used to load and manipulate raster object
+
+---
+
+#### Useful resources 
+
+Here a list of insightful material
+ - [Stack Overflow](https://stackoverflow.com/)
+ - [R_Blogger](https://www.r-bloggers.com/)
+ - [R Cheatsheets](https://github.com/rstudio/cheatsheets)
+ - [Geocomputation with R](https://bookdown.org/robinlovelace/geocompr/)
+
